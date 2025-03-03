@@ -1,0 +1,7 @@
+<launch>
+    <node pkg="sensor_filters" type="pointcloud2_filter_chain" output="screen" name="pointcloud2_filters">
+        <remap from="~input" to="/ob_camera_back/depth/points" />
+        <remap from="~output" to="/ob_camera_back/depth/points_filtered" />
+        <rosparam command="load" file="$(find point_cloud2_filters)/config/ocam.yaml" />
+    </node>
+</launch>

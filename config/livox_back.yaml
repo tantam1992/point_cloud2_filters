@@ -18,17 +18,17 @@ cloud_filter_chain:
     type: point_cloud2_filters/CropBoxFilterPointCloud2
     params:          
       active: True
-      input_frame: "olei_lidar"
-      output_frame: "olei_lidar"
+      input_frame: "livox_frame_192_168_1_104"
+      output_frame: "livox_frame_192_168_1_104"
       keep_organized: True
       negative: False
       #user_filter_value: 5
-      min_x: 0
-      max_x: 5
-      min_y: -2
-      max_y: 2
-      min_z: -2
-      max_z: 0.5
+      min_x: 0.0
+      max_x: 2.5
+      min_y: -1.2
+      max_y: 1.2
+      min_z: -0.5
+      max_z: 2.0
       
   # - name: VoxelGridFilter
   #   type: point_cloud2_filters/VoxelGridFilterPointCloud2
