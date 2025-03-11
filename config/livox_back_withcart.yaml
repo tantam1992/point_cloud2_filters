@@ -21,15 +21,15 @@ cloud_filter_chain:
       input_frame: "livox_frame_192_168_1_104"
       output_frame: "livox_frame_192_168_1_104"
       keep_organized: True
-      negative: False
+      negative: True
       #user_filter_value: 5
       min_x: 0.0
-      max_x: 2.0
-      min_y: -1.2
-      max_y: 1.2
+      max_x: 0.35
+      min_y: -0.45
+      max_y: 0.45
       min_z: -0.1
       max_z: 0.1
-      
+
   # - name: VoxelGridFilter
   #   type: point_cloud2_filters/VoxelGridFilterPointCloud2
   #   params:

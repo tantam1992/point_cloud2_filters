@@ -1,7 +1,7 @@
 <launch>
     <node pkg="sensor_filters" type="pointcloud2_filter_chain" output="screen" name="pointcloud2_filters" ns="olei">
-        <remap from="~input" to="/olei_points_filtered" />
-        <remap from="~output" to="/olei_points_doublefiltered" />
+        <remap from="~input" to="/olei_points" />
+        <remap from="~output" to="/olei_points_filtered" />
         <rosparam command="load" file="$(find point_cloud2_filters)/config/olei.yaml" />
     </node>
     <!-- <node pkg="sensor_filters" type="pointcloud2_filter_chain" output="screen" name="pointcloud2_filters" ns="ocam">
@@ -16,7 +16,13 @@
     </node>
     <node pkg="sensor_filters" type="pointcloud2_filter_chain" output="screen" name="pointcloud2_filters" ns="livox_back">
         <remap from="~input" to="/livox/lidar_192_168_1_104" />
-        <remap from="~output" to="/livox_back/points" />
+        <remap from="~output" to="/livox_back_empty/points" />
         <rosparam command="load" file="$(find point_cloud2_filters)/config/livox_back.yaml" />
     </node>
+    <node pkg="sensor_filters" type="pointcloud2_filter_chain" output="screen" name="pointcloud2_filters" ns="livox_back_with_cart">
+        <remap from="~input" to="/livox_back_empty/points" />
+        <remap from="~output" to="/livox_back_with_cart/points" />
+        <rosparam command="load" file="$(find point_cloud2_filters)/config/livox_back_withcart.yaml" />
+    </node>
+    <node pkg="point_cloud2_filters" name="livox_back_switch" type="livox_back_switcher" output="screen"/>
 </launch>

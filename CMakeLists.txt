@@ -120,6 +120,9 @@ target_link_libraries(sac_segmentation_extract_filter_point_cloud2
 add_dependencies(sac_segmentation_extract_filter_point_cloud2 ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 class_loader_hide_library_symbols(sac_segmentation_extract_filter_point_cloud2)
 
+add_executable(livox_back_switcher src/livox_back_switcher.cpp)
+target_link_libraries(livox_back_switcher ${catkin_LIBRARIES})
+
 #############
 ## Install ##
 #############
