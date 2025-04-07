@@ -41,7 +41,7 @@ private:
 
     // Logic to publish /livox_back/points
     void publishLivoxBackPoints() {
-        if (fold_state == "LOADED" && !livox_back_with_cart_points.data.empty()) {
+        if (fold_state == "OPERATIONAL/LOADED" && !livox_back_with_cart_points.data.empty()) {
             livox_back_pub.publish(livox_back_with_cart_points);
         } else if (!livox_back_empty_points.data.empty()) {
             livox_back_pub.publish(livox_back_empty_points);
