@@ -25,10 +25,10 @@ cloud_filter_chain:
       #user_filter_value: 5
       min_x: 0.0
       max_x: 0.35
-      min_y: -0.45
-      max_y: 0.45
-      min_z: -0.1
-      max_z: 0.1
+      min_y: -0.48
+      max_y: 0.48
+      min_z: -1.0
+      max_z: 1.0
 
   # - name: VoxelGridFilter
   #   type: point_cloud2_filters/VoxelGridFilterPointCloud2
