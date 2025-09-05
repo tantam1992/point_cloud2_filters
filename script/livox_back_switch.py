@@ -3,7 +3,6 @@
 import rospy
 from std_msgs.msg import String
 from sensor_msgs.msg import PointCloud2
-from geometry_msgs.msg import Twist
 
 class LivoxBackPointCloudSwitcher:
     def __init__(self):
@@ -11,59 +10,34 @@ class LivoxBackPointCloudSwitcher:
 
         # Subscribers
         self.fold_state_sub = rospy.Subscriber('/fold_state', String, self.fold_state_callback)
-        self.cmd_vel_sub = rospy.Subscriber('/cmd_vel', Twist, self.cmd_vel_callback)
         self.livox_back_empty_sub = rospy.Subscriber('/livox_back_empty/points', PointCloud2, self.livox_back_empty_callback)
         self.livox_back_with_cart_sub = rospy.Subscriber('/livox_back_with_cart/points', PointCloud2, self.livox_back_with_cart_callback)
 
-        # Publishers
+        # Publisher
         self.livox_back_pub = rospy.Publisher('/livox_back/points', PointCloud2, queue_size=10)
-        self.livox_back_nav_pub = rospy.Publisher('/livox_back_nav/points', PointCloud2, queue_size=10)
 
         # State variables
         self.fold_state = "UNKNOWN"
         self.livox_back_empty_points = None
         self.livox_back_with_cart_points = None
-        self.is_moving = False
 
     def fold_state_callback(self, msg):
         self.fold_state = msg.data
         self.publish_livox_back_points()
-        self.publish_livox_back_nav_points()
-
-    def cmd_vel_callback(self, msg):
-        """Callback to check if the robot is moving based on /cmd_vel."""
-        # Check if linear or angular velocity is above a threshold
-        if abs(msg.linear.x) > 0.01 or abs(msg.angular.z) > 0.01:
-            self.is_moving = True
-        else:
-            self.is_moving = False
 
     def livox_back_empty_callback(self, msg):
         self.livox_back_empty_points = msg
         self.publish_livox_back_points()
-        self.publish_livox_back_nav_points()
 
     def livox_back_with_cart_callback(self, msg):
         self.livox_back_with_cart_points = msg
         self.publish_livox_back_points()
-        self.publish_livox_back_nav_points()
 
     def publish_livox_back_points(self):
         if self.fold_state == "LOADED" and self.livox_back_with_cart_points is not None:
             self.livox_back_pub.publish(self.livox_back_with_cart_points)
         elif self.livox_back_empty_points is not None:
             self.livox_back_pub.publish(self.livox_back_empty_points)
-
-    def publish_livox_back_nav_points(self):
-    if self.fold_state == "OPERATIONAL/READY_PICKUP" and not self.is_moving:
-        # rospy.loginfo("Not publishing /livox_back_nav/points to avoid /move_base interference.")
-        return
-    elif self.fold_state == "OPERATIONAL/READY_PICKUP" and self.is_moving and self.livox_back_empty_points is not None:
-        self.livox_back_nav_pub.publish(self.livox_back_empty_points)
-    elif self.fold_state == "LOADED" and self.livox_back_with_cart_points is not None:
-        self.livox_back_nav_pub.publish(self.livox_back_with_cart_points)
-    elif self.livox_back_empty_points is not None:
-        self.livox_back_nav_pub.publish(self.livox_back_empty_points)
 
 if __name__ == '__main__':
     try:
