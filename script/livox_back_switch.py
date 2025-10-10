@@ -34,7 +34,7 @@ class LivoxBackPointCloudSwitcher:
         self.publish_livox_back_points()
 
     def publish_livox_back_points(self):
-        if self.fold_state == "LOADED" and self.livox_back_with_cart_points is not None:
+        if (self.fold_state == "LOADED" or self.fold_state == "OPERATIONAL/READY_PICKUP") and self.livox_back_with_cart_points is not None:
             self.livox_back_pub.publish(self.livox_back_with_cart_points)
         elif self.livox_back_empty_points is not None:
             self.livox_back_pub.publish(self.livox_back_empty_points)
